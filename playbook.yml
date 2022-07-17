@@ -1,0 +1,15 @@
+- hosts: network-server
+  become: true
+
+  tasks:
+    - name: Include package installation tasks
+      ansible.builtin.import_tasks: tasks/packages.yml
+
+    - name: Include nginx setup tasks
+      ansible.builtin.import_tasks: tasks/nginx.yml
+
+    - name: Include drive setup tasks
+      ansible.builtin.import_tasks: tasks/drives.yml
+
+    - name: Include docker tasks
+      ansible.builtin.import_tasks: tasks/docker.yml

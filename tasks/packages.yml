@@ -1,0 +1,27 @@
+- name: Add Docker repository key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Plex repository key
+  apt_key:
+    url: https://downloads.plex.tv/plex-keys/PlexSign.key
+    state: present
+
+- name: Add Docker repository
+  apt_repository: repo='deb https://download.docker.com/linux/ubuntu bionic stable' state=present
+
+- name: Add Plex repository
+  apt_repository: repo='deb https://downloads.plex.tv/repo/deb public main' state=present
+
+- name: ensure docker and dependencies are installed
+  apt: name=docker-ce update_cache=yes
+
+- name: ensure python-docker is installed
+  apt: name=python3-docker update_cache=yes
+
+- name: ensure plex is installed
+  apt: name=plexmediaserver update_cache=yes
+
+- name: ensure mergerfs is installed
+  apt: name=mergerfs update_cache=yes

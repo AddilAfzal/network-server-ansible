@@ -1,0 +1,21 @@
+- name: ensure nginx is at the latest version
+  apt: name=nginx state=latest
+- name: start nginx
+  service:
+      name: nginx
+      state: started
+- name: copy the nginx config file and restart nginx
+  copy:
+    src: ./config/nginx/kerberos.cfg
+    dest: /etc/nginx/sites-available/kerberos.cfg
+  become: yes
+- name: create symlink
+  file:
+    src: /etc/nginx/sites-available/kerberos.cfg
+    dest: /etc/nginx/sites-enabled/kerberos.cfg
+    state: link
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+  become: yes

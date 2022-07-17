@@ -1,0 +1,34 @@
+- service: name=docker state=restarted
+
+- name: Ensure group "docker" exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: adding existing user 'addil' to group docker
+  user:
+    name: addil
+    groups: docker
+    append: yes
+
+# Kerberos camera docker container
+- name: Create directory with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/storage/security/camera1
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+
+- name: Install Kerberos Docker Container
+  docker_container:
+    name: camera1
+    image: kerberos/kerberos
+    state: started
+    cpus: 2
+    restart_policy: always
+    ports:
+      - "8889:8889/tcp"
+      - "27000:80/tcp"
+    volumes:
+      - /media/storage/security/camera1:/etc/opt/kerberosio/capture

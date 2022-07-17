@@ -1,0 +1,42 @@
+- name: Create directory with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/drive1/
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+- name: Create directory with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/drive2/
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+- name: Create directory with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/storage/
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+- name: Create directory with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/mergerfs/
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+- name: Mount up device by UUID
+  ansible.posix.mount:
+    path: /media/drive1/
+    src: UUID=ba9da02c-f669-4baa-9202-1900ac9802fe
+    fstype: ext4
+    opts: defaults
+    state: present
+- name: Mount up device by UUID
+  ansible.posix.mount:
+    path: /media/mergerfs
+    src: /media/drive1/media/storage:/media/drive2/
+    fstype: fuse.mergerfs
+    opts: allow_other,use_ino,nonempty
+    state: present
