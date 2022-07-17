@@ -31,7 +31,9 @@
       - "8889:8889/tcp"
       - "27000:80/tcp"
     volumes:
-      - /media/storage/security/camera1:/etc/opt/kerberosio/capture
+      - /media/mergerfs/security/camera1:/etc/opt/kerberosio/capture
+      - /media/mergerfs/security/web/config:/etc/opt/web/config
+      - /media/mergerfs/security/kerberosio/config:/etc/opt/kerberosio/config
 
 - name: Include docker transmission container tasks
   ansible.builtin.import_tasks: docker/transmission.yml
