@@ -1,0 +1,43 @@
+- name: Create directory for transmission with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/transmission/config
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+- name: Create directory for transmission  with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/transmission/downloads
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+- name: Create directory for transmission with permissions for user 'addil'
+  ansible.builtin.file:
+    path: /media/transmission/watch
+    state: directory
+    owner: addil
+    group: addil
+    mode: '0775'
+- name: Install Transmission Docker Container
+  docker_container:
+    name: transmission
+    image: lscr.io/linuxserver/transmission:latest
+    state: started
+    cpus: 1
+    restart_policy: always
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/London
+      TRANSMISSION_WEB_HOME: /combustion-release/ #optional
+      # - "USER: username"
+      # - "PASS: password"
+    volumes:
+      - /media/transmission/config:/config
+      - /media/transmission/downloads:/downloads
+      - /media/transmission/watch:/watch

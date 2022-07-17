@@ -9,10 +9,20 @@
     src: ./config/nginx/kerberos.cfg
     dest: /etc/nginx/sites-available/kerberos.cfg
   become: yes
+- name: copy the nginx config file and restart nginx
+  copy:
+    src: ./config/nginx/transmission.cfg
+    dest: /etc/nginx/sites-available/transmission.cfg
+  become: yes
 - name: create symlink
   file:
     src: /etc/nginx/sites-available/kerberos.cfg
     dest: /etc/nginx/sites-enabled/kerberos.cfg
+    state: link
+- name: create symlink
+  file:
+    src: /etc/nginx/sites-available/transmission.cfg
+    dest: /etc/nginx/sites-enabled/transmission.cfg
     state: link
 - name: restart nginx
   service:

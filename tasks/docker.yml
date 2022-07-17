@@ -32,3 +32,6 @@
       - "27000:80/tcp"
     volumes:
       - /media/storage/security/camera1:/etc/opt/kerberosio/capture
+
+- name: Include docker transmission container tasks
+  ansible.builtin.import_tasks: docker/transmission.yml
